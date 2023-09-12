@@ -1,95 +1,44 @@
-import pygame
-import random
-
-# Constants
-WIDTH = 640
-HEIGHT = 480
-GRID_SIZE = 20
-SNAKE_COLOR = (0, 255, 0)
-FOOD_COLOR = (255, 0, 0)
-
-# Initialize Pygame
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-clock = pygame.time.Clock()
-
-# Initialize the game state
-snake = [(WIDTH // 2, HEIGHT // 2)]
-direction = (0, 1)
-food = (random.randint(0, WIDTH // GRID_SIZE - 1) * GRID_SIZE, random.randint(0, HEIGHT // GRID_SIZE - 1) * GRID_SIZE)
-game_over = False
+import streamlit as st
+import time
 
 
-def update_game():
-    global snake, direction, food, game_over
+def play_game():
+    st.write("Welcome to the Car Racing Game!")
+    st.write("Use the arrow keys to move the car.")
 
-    # Get the current head position
-    head = snake[0]
+    # Initialize the car position
+    car_position = 0
 
-    # Get the new head position based on the current direction
-    new_head = (head[0] + direction[0] * GRID_SIZE, head[1] + direction[1] * GRID_SIZE)
+    while True:
+        # Get the user's input
+        key = st.session_state.get("key", None)
 
-    # Check if the new head position is out of bounds or hits the snake's body
-    if (
-            new_head[0] < 0 or new_head[0] >= WIDTH or
-            new_head[1] < 0 or new_head[1] >= HEIGHT or
-            new_head in snake
-    ):
-        game_over = True
-        return
+        # Update the car position based on the user's input
+        if key == "up":
+            car_position -= 1
+        elif key == "down":
+            car_position += 1
 
-    # Update the snake's position
-    snake.insert(0, new_head)
+        # Clear the screen
+        st.text("\n" * 10)
 
-    # Check if the snake eats the food
-    if new_head == food:
-        # Generate new food position
-        food = (
-        random.randint(0, WIDTH // GRID_SIZE - 1) * GRID_SIZE, random.randint(0, HEIGHT // GRID_SIZE - 1) * GRID_SIZE)
-    else:
-        # Remove the tail segment
-        snake.pop()
+        # Draw the road
+        st.text("Road")
 
+        # Draw the car at the current position
+        st.text(" " * car_position + "🚗")
 
-def render_game():
-    # Clear the screen
-    screen.fill((0, 0, 0))
-
-    # Draw the snake
-    for segment in snake:
-        pygame.draw.rect(screen, SNAKE_COLOR, (segment[0], segment[1], GRID_SIZE, GRID_SIZE))
-
-    # Draw the food
-    pygame.draw.rect(screen, FOOD_COLOR, (food[0], food[1], GRID_SIZE, GRID_SIZE))
-
-    # Update the display
-    pygame.display.flip()
+        # Delay to control the game speed
+        time.sleep(0.1)
 
 
-# Main game loop
-while not game_over:
-    # Handle events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game_over = True
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                direction = (0, -1)
-            elif event.key == pygame.K_DOWN:
-                direction = (0, 1)
-            elif event.key == pygame.K_LEFT:
-                direction = (-1, 0)
-            elif event.key == pygame.K_RIGHT:
-                direction = (1, 0)
+# Streamlit app
+def main():
+    st.title("Car Racing Game")
 
-    # Update the game state
-    update_game()
+    # Run the game loop
+    play_game()
 
-    # Render the game
-    render_game()
 
-    # Delay to control the game speed
-    clock.tick(10)
-
-# Quit Pygame
-pygame.quit()
+if __name__ == "__main__":
+    main()
