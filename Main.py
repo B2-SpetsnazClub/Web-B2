@@ -1,37 +1,44 @@
 import streamlit as st
-import pandas as pd
+import time
 
 
-st.title("This is SparTon-B2")
-st.markdown("## Code")
-code = '''
-def hello():
-    print("Hello, Streamlit!")
-'''
+def play_game():
+    st.write("Welcome to the Car Racing Game!")
+    st.write("Use the arrow keys to move the car.")
 
-show_btn = st.button("Show code!")
-if show_btn:
-    st.code(code, language='python')
+    # Initialize the car position
+    car_position = 0
+
+    while True:
+        # Get the user's input
+        key = st.session_state.get("key", None)
+
+        # Update the car position based on the user's input
+        if key == "up":
+            car_position -= 1
+        elif key == "down":
+            car_position += 1
+
+        # Clear the screen
+        st.text("\n" * 10)
+
+        # Draw the road
+        st.text("Road")
+
+        # Draw the car at the current position
+        st.text(" " * car_position + "🚗")
+
+        # Delay to control the game speed
+        time.sleep(0.1)
 
 
-cols = st.columns(2)
-with cols[0]:
-    age_inp = st.number_input("Input your age")
-    st.markdown(f"Your age is {round(age_inp, 2)}")
+# Streamlit app
+def main():
+    st.title("Car Racing Game")
+
+    # Run the game loop
+    play_game()
 
 
-# st.markdown("# NLP Task")
-with cols[1]:
-    text_inp = st.text_input("Input your text")
-    word_tokenize = "|".join(text_inp.split())
-    st.markdown(f"{word_tokenize}")
-
-
-df = pd.DataFrame({
-'first column': [1, 2, 3, 4],
-'second column': [10, 20, 60, 90]
-})
-st.dataframe(df)
-show_chart_btn = st.button("Show Chart!!")
-if show_chart_btn:
-    st.line_chart(df, x='fir1st column', y='second column')
+if __name__ == "__main__":
+    main()
