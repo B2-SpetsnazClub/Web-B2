@@ -1,44 +1,29 @@
 import streamlit as st
-import time
+import random
 
+# Define the Tarot card deck
+tarot_deck = [
+    "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor",
+    "The Hierophant", "The Lovers", "The Chariot", "Strength", "The Hermit",
+    "Wheel of Fortune", "Justice", "The Hanged Man", "Death", "Temperance",
+    "The Devil", "The Tower", "The Star", "The Moon", "The Sun",
+    "Judgment", "The World"
+]
 
-def play_game():
-    st.write("Welcome to the Car Racing Game!")
-    st.write("Use the arrow keys to move the car.")
+# Create a function to predict a random Tarot card
+def predict_tarot_card():
+    return random.choice(tarot_deck)
 
-    # Initialize the car position
-    car_position = 0
-
-    while True:
-        # Get the user's input
-        key = st.session_state.get("key", None)
-
-        # Update the car position based on the user's input
-        if key == "up":
-            car_position -= 1
-        elif key == "down":
-            car_position += 1
-
-        # Clear the screen
-        st.text("\n" * 10)
-
-        # Draw the road
-        st.text("Road")
-
-        # Draw the car at the current position
-        st.text(" " * car_position + "🚗")
-
-        # Delay to control the game speed
-        time.sleep(0.1)
-
-
-# Streamlit app
+# Create the Streamlit app
 def main():
-    st.title("Car Racing Game")
+    st.title("Tarot Card AI Prediction")
+    st.write("Welcome to the Tarot Card AI Prediction app!")
+    st.write("Click the button below to get a random Tarot card prediction.")
 
-    # Run the game loop
-    play_game()
+    if st.button("Predict"):
+        prediction = predict_tarot_card()
+        st.write("Your Tarot card prediction is:", prediction)
 
-
+# Run the app
 if __name__ == "__main__":
     main()
