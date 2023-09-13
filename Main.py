@@ -1,13 +1,13 @@
 import streamlit as st
 import random
+from PIL import Image
 
 # Define the Tarot card deck
 tarot_deck = [
-    "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor",
-    "The Hierophant", "The Lovers", "The Chariot", "Strength", "The Hermit",
-    "Wheel of Fortune", "Justice", "The Hanged Man", "Death", "Temperance",
-    "The Devil", "The Tower", "The Star", "The Moon", "The Sun",
-    "Judgment", "The World"
+    {"name": "The Fool", "image": "fool.jpg"},
+    {"name": "The Magician", "image": "magician.jpg"},
+    {"name": "The High Priestess", "image": "high_priestess.jpg"},
+    # Add more Tarot cards with their respective images
 ]
 
 # Create a function to predict a random Tarot card
@@ -16,14 +16,21 @@ def predict_tarot_card():
 
 # Create the Streamlit app
 def main():
-    st.title("Tarot Card AI Prediction")
-    st.write("Welcome to the Tarot Card AI Prediction app!")
-    st.write("Click the button below to get a random Tarot card prediction.")
+    st.title("AI Predict Future with Tarot Cards")
+    st.write("Welcome to the AI Predict Future with Tarot Cards app!")
+    st.write("Click the button below to get a prediction for your future.")
 
     if st.button("Predict"):
-        prediction = predict_tarot_card()
-        st.write("Your Tarot card prediction is:", prediction)
+        # Generate three random Tarot cards
+        predictions = [predict_tarot_card() for _ in range(3)]
 
+        # Display the Tarot card photos
+        for prediction in predictions:
+            image = Image.open(prediction["image"])
+            st.image(image, caption=prediction["name"], use_column_width=True)
+
+        # Display the prediction statement
+        st.write("Your future prediction is:", ", ".join([prediction["name"] for prediction in predictions]))
 
 # Run the app
 if __name__ == "__main__":
