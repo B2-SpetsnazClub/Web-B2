@@ -27,7 +27,6 @@ def generate_photos():
         photos.append(image)
     return photos
 
-# Create the Streamlit app
 def main():
     st.title("AI Picture Generator")
     st.write("Welcome to the AI Picture Generator app!")
