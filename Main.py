@@ -24,6 +24,7 @@ def main():
         prediction = predict_tarot_card()
         st.write("Your Tarot card prediction is:", prediction)
 
+
 # Run the app
 if __name__ == "__main__":
     main()
